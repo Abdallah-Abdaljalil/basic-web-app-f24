@@ -48,6 +48,44 @@ export default function QueryProcessor(query: string): string {
         // Return the result as a string
         return `${result}`;
     }
+  }
+  
+  function checkIfSixthPower(n: number) {
+    let root = Math.round(Math.pow(n, 1/6));
+    return Math.pow(root, 6) === n;
 }
+
+if (query.includes("Which of the following numbers is both a square and a cube:")) {
+    // Extract numbers from the query
+    const numberPattern = /(\d+)/g; // Regular expression to find all numbers
+    const numberStrings = query.match(numberPattern); // Find all matches
+
+    if (numberStrings) {
+        // Filter to find numbers that are both squares and cubes
+        const results = numberStrings.filter(num => checkIfSixthPower(parseInt(num, 10)));
+
+        // Return the results as a comma-separated string
+        return results.length > 0 ? `The numbers are: ${results.join(', ')}.` : "No numbers meet the criteria.";
+    }
+}
+
+  
+if (query.includes("What is") && query.includes("multiplied")) {
+    // Extract numbers from the query
+    const numberPattern = /(\d+)/g; // Regular expression to find all numbers
+    const numberStrings = query.match(numberPattern); // Find all matches
+
+    if (numberStrings && numberStrings.length === 2) {
+        // Convert number strings to integers
+        const num1 = parseInt(numberStrings[0], 10);
+        const num2 = parseInt(numberStrings[1], 10);
+        // Perform addition
+        const result = num1 * num2;
+        // Return the result as a string
+        return `${result}`;
+    }
+  }
+  
+
   return "";
 }
