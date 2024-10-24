@@ -126,22 +126,41 @@ if (query.includes("What is") && query.includes("multiplied")) {
     }
   }
 
-  if (query.includes("Which of the following numbers are primes:")) {
+if (query.includes("Which of the following numbers are primes:")) {
+  // Extract numbers from the query
+  const numberPattern = /(\d+)/g;
+  const numberStrings = query.match(numberPattern);
+
+  if (numberStrings) {
+      // Convert strings to numbers and filter for primes
+      const primes = numberStrings.map(Number).filter(isPrime);
+
+      // Return the prime numbers
+      return primes.length > 0 ? primes.join(', ') : "None";
+  }
+}
+
+
+  
+if (query.includes("What is") && query.includes("to the power of")) {
     // Extract numbers from the query
-    const numberPattern = /(\d+)/g;
-    const numberStrings = query.match(numberPattern);
+    const numberPattern = /(\d+)/g; // Regular expression to find all numbers
+    const numberStrings = query.match(numberPattern); // Find all matches
 
-    if (numberStrings) {
-        // Convert strings to numbers and filter for primes
-        const primes = numberStrings.map(Number).filter(isPrime);
+    if (numberStrings && numberStrings.length === 2) {
+        // Extract base and exponent
+        const base = parseInt(numberStrings[0], 10);
+        const exponent = parseInt(numberStrings[1], 10);
+        // Compute the power
+        const result = Math.pow(base, exponent);
 
-        // Return the result
-        return primes.length > 0 ? `The numbers are: ${primes.join(', ')}.` : "No numbers meet the criteria.";
+        // Return the result as a string
+        return `${result}`;
     }
-    return "No numbers meet the criteria.";
 }
 
   
+
 
 
   return "";
