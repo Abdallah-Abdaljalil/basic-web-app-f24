@@ -89,7 +89,7 @@ export default function QueryProcessor(query: string): string {
         const sixthPowers = numberStrings.map(Number).filter(isSixthPower);
 
         // Return the result
-        return sixthPowers.length > 0 ? `The numbers are: ${sixthPowers.join(', ')}.` : "No numbers meet the criteria.";
+        return '${sixthPowers.join(', ')}.';
     }
 }
 
@@ -159,7 +159,23 @@ if (query.includes("What is") && query.includes("to the power of")) {
     }
 }
 
-  
+   if (query.includes("plus") && query.includes("multiplied by")) {
+        // Detect the order of operations in the query
+        const parts = query.split(' ');
+        const numberStrings = query.match(/\d+/g);
+        const numbers = numberStrings ? numberStrings.map(Number) : [];
+        let result = 0;
+
+        // Determine operation order and calculate result based on keywords
+        if (query.indexOf("plus") < query.indexOf("multiplied by")) {
+            // Addition comes before multiplication in the text
+            result = numbers[0] + (numbers[1] * numbers[2]);
+        } else {
+            // Multiplication comes before addition in the text
+            result = (numbers[0] * numbers[1]) + numbers[2];
+        }
+        return `${result}`;
+    }
 
 
 
