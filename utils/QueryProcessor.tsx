@@ -1,3 +1,20 @@
+// Function to check if a number is both a square and a cube (i.e., sixth power)
+function isSixthPower(n: number) {
+    let sixthRoot = Math.round(Math.pow(n, 1/6));
+    return Math.pow(sixthRoot, 6) === n;
+}
+
+// Function to check if a number is prime
+function isPrime(n: number) {
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    if (n % 2 === 0 || n % 3 === 0) return false;
+    for (let i = 5; i * i <= n; i += 6) {
+        if (n % i === 0 || n % (i + 2) === 0) return false;
+    }
+    return true;
+}
+
 export default function QueryProcessor(query: string): string {
   if (query.toLowerCase().includes("shakespeare")) {
     return (
@@ -50,22 +67,17 @@ export default function QueryProcessor(query: string): string {
     }
   }
   
-  function checkIfSixthPower(n: number) {
-    let root = Math.round(Math.pow(n, 1/6));
-    return Math.pow(root, 6) === n;
-}
-
-if (query.includes("Which of the following numbers is both a square and a cube:")) {
+ if (query.includes("Which of the following numbers is both a square and a cube:")) {
     // Extract numbers from the query
-    const numberPattern = /(\d+)/g; // Regular expression to find all numbers
-    const numberStrings = query.match(numberPattern); // Find all matches
+    const numberPattern = /(\d+)/g;
+    const numberStrings = query.match(numberPattern);
 
     if (numberStrings) {
-        // Filter to find numbers that are both squares and cubes
-        const results = numberStrings.filter(num => checkIfSixthPower(parseInt(num, 10)));
+        // Convert strings to numbers and filter for sixth powers
+        const sixthPowers = numberStrings.map(Number).filter(isSixthPower);
 
-        // Return the results as a comma-separated string
-        return results.length > 0 ? `The numbers are: ${results.join(', ')}.` : "No numbers meet the criteria.";
+        // Return the result
+        return sixthPowers.length > 0 ? `The numbers are: ${sixthPowers.join(', ')}.` : "No numbers meet the criteria.";
     }
 }
 
@@ -84,7 +96,39 @@ if (query.includes("What is") && query.includes("multiplied")) {
         // Return the result as a string
         return `${result}`;
     }
+}
+  
+  if (query.includes("What is") && query.includes("minus")) {
+    // Extract numbers from the query
+    const numberPattern = /(\d+)/g; // Regular expression to find all numbers
+    const numberStrings = query.match(numberPattern); // Find all matches
+
+    if (numberStrings && numberStrings.length === 2) {
+        // Convert number strings to integers
+        const num1 = parseInt(numberStrings[0], 10);
+        const num2 = parseInt(numberStrings[1], 10);
+        // Perform addition
+        const result = num1 - num2;
+        // Return the result as a string
+        return `${result}`;
+    }
   }
+
+  if (query.includes("Which of the following numbers are primes:")) {
+    // Extract numbers from the query
+    const numberPattern = /(\d+)/g;
+    const numberStrings = query.match(numberPattern);
+
+    if (numberStrings) {
+        // Convert strings to numbers and filter for primes
+        const primes = numberStrings.map(Number).filter(isPrime);
+
+        // Return the result
+        return primes.length > 0 ? `The numbers are: ${primes.join(', ')}.` : "No numbers meet the criteria.";
+    }
+    return "No numbers meet the criteria.";
+}
+
   
 
   return "";
