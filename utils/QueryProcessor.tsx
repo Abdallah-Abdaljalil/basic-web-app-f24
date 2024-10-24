@@ -51,6 +51,18 @@ export default function QueryProcessor(query: string): string {
     }
   }
 
+  if (query.includes("What is") && query.match(/\bplus\b/g)) {
+    // Extract numbers from the query
+    const numberPattern = /(\d+)/g; // Regular expression to find all numbers
+    const numberStrings = query.match(numberPattern); // Find all matches
+
+    // Convert number strings to integers and sum them
+    if (numberStrings) {
+        const result = numberStrings.reduce((sum, num) => sum + parseInt(num, 10), 0);
+        return `${result}`;
+    }
+  }
+  
   if (query.includes("What is") && query.includes("plus")) {
     // Extract numbers from the query
     const numberPattern = /(\d+)/g; // Regular expression to find all numbers
@@ -130,6 +142,7 @@ if (query.includes("What is") && query.includes("multiplied")) {
 }
 
   
+
 
   return "";
 }
