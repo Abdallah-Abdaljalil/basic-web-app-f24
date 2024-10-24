@@ -79,19 +79,19 @@ export default function QueryProcessor(query: string): string {
     }
   }
   
- if (query.includes("Which of the following numbers is both a square and a cube:")) {
-    // Extract numbers from the query
-    const numberPattern = /(\d+)/g;
-    const numberStrings = query.match(numberPattern);
+//  if (query.includes("Which of the following numbers is both a square and a cube:")) {
+//     // Extract numbers from the query
+//     const numberPattern = /(\d+)/g;
+//     const numberStrings = query.match(numberPattern);
 
-    if (numberStrings) {
-        // Convert strings to numbers and filter for sixth powers
-        const sixthPowers = numberStrings.map(Number).filter(isSixthPower);
+//     if (numberStrings) {
+//         // Convert strings to numbers and filter for sixth powers
+//         const sixthPowers = numberStrings.map(Number).filter(isSixthPower);
 
-        // Return the result
-        return '${sixthPowers.join(', ')}.';
-    }
-}
+//         // Return the result
+//         return '${sixthPowers.join(', ')}.';
+//     }
+// }
 
   
 if (query.includes("What is") && query.includes("multiplied")) {
